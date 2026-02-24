@@ -1,0 +1,132 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": { "navigationBarTitleText": "摄影集市" }
+    },
+    {
+      "path": "pages/detail/index",
+      "style": { "navigationBarTitleText": "作品详情" }
+    },
+    {
+      "path": "pages/search/index",
+      "style": { "navigationBarTitleText": "搜索" }
+    },
+    {
+      "path": "pages/login/index",
+      "style": { "navigationBarTitleText": "登录" }
+    },
+    {
+      "path": "pages/photographer/index",
+      "style": { "navigationBarTitleText": "摄影师主页" }
+    },
+    {
+      "path": "pages/mine/index",
+      "style": { "navigationBarTitleText": "个人中心" }
+    },
+    {
+      "path": "pages/mine/orders",
+      "style": { "navigationBarTitleText": "我的订单" }
+    },
+    {
+      "path": "pages/mine/licenses",
+      "style": { "navigationBarTitleText": "我的授权" }
+    },
+    {
+      "path": "pages/license/apply",
+      "style": { "navigationBarTitleText": "申请授权" }
+    },
+    {
+      "path": "pages/studio/index",
+      "style": { "navigationBarTitleText": "摄影师工作台" }
+    },
+    {
+      "path": "pages/studio/upload",
+      "style": { "navigationBarTitleText": "上传作品" }
+    },
+    {
+      "path": "pages/studio/works",
+      "style": { "navigationBarTitleText": "我的作品" }
+    },
+    {
+      "path": "pages/studio/edit",
+      "style": { "navigationBarTitleText": "编辑作品" }
+    },
+    {
+      "path": "pages/studio/earnings",
+      "style": { "navigationBarTitleText": "积分收益" }
+    },
+    {
+      "path": "pages/admin/index",
+      "style": { "navigationBarTitleText": "管理后台" }
+    },
+    {
+      "path": "pages/admin/works",
+      "style": { "navigationBarTitleText": "作品审核" }
+    },
+    {
+      "path": "pages/admin/work-review",
+      "style": { "navigationBarTitleText": "审核详情" }
+    },
+    {
+      "path": "pages/admin/licenses",
+      "style": { "navigationBarTitleText": "授权审核" }
+    },
+    {
+      "path": "pages/admin/license-review",
+      "style": { "navigationBarTitleText": "授权审核详情" }
+    },
+    {
+      "path": "pages/admin/users",
+      "style": { "navigationBarTitleText": "用户管理" }
+    },
+    {
+      "path": "pages/admin/categories",
+      "style": { "navigationBarTitleText": "分类标签管理" }
+    },
+    {
+      "path": "pages/admin/orgs",
+      "style": { "navigationBarTitleText": "组织管理" }
+    },
+    {
+      "path": "pages/admin/roles",
+      "style": { "navigationBarTitleText": "角色管理" }
+    },
+    {
+      "path": "pages/admin/menus",
+      "style": { "navigationBarTitleText": "菜单管理" }
+    }
+  ],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#333333",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tab/home.png",
+        "selectedIconPath": "static/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/search/index",
+        "text": "搜索",
+        "iconPath": "static/tab/search.png",
+        "selectedIconPath": "static/tab/search-active.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "static/tab/mine.png",
+        "selectedIconPath": "static/tab/mine-active.png"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "摄影集市",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#f5f5f5"
+  }
+}
