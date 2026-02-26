@@ -11,10 +11,11 @@ export async function wxLogin() {
       success: async ({ code }) => {
         try {
           const res = await http.post('/auth/wx-login', { code }, { noAuth: true })
-          uni.setStorageSync(STORAGE_KEY.ACCESS_TOKEN, res.accessToken)
-          uni.setStorageSync(STORAGE_KEY.REFRESH_TOKEN, res.refreshToken)
-          uni.setStorageSync(STORAGE_KEY.USER_INFO, JSON.stringify(res.user))
-          resolve(res.user)
+          const { accessToken, refreshToken, user } = res
+          uni.setStorageSync(STORAGE_KEY.ACCESS_TOKEN, accessToken)
+          uni.setStorageSync(STORAGE_KEY.REFRESH_TOKEN, refreshToken)
+          uni.setStorageSync(STORAGE_KEY.USER_INFO, JSON.stringify(user))
+          resolve(user)
         } catch (err) {
           reject(err)
         }

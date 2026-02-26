@@ -2,16 +2,16 @@ import { http } from '@/utils/request.js'
 
 // ---- 作品审核 ----
 export const getAdminPhotos = (params) => http.get('/admin/photos', params)
-export const reviewPhoto = (id, data) => http.patch(`/admin/photos/${id}/review`, data)
+export const reviewPhoto = (id, data) => http.post(`/admin/photos/${id}/review`, data)
 
 // ---- 授权审核 ----
 export const getAdminLicenses = (params) => http.get('/admin/licenses', params)
-export const reviewAdminLicense = (id, data) => http.patch(`/admin/licenses/${id}/review`, data)
+export const reviewAdminLicense = (id, data) => http.post(`/admin/licenses/${id}/review`, data)
 
 // ---- 用户管理 ----
 export const getAdminUsers = (params) => http.get('/admin/users', params)
-export const banUser = (id) => http.patch(`/admin/users/${id}/ban`)
-export const unbanUser = (id) => http.patch(`/admin/users/${id}/unban`)
+export const banUser = (id) => http.post(`/admin/users/${id}/ban`)
+export const unbanUser = (id) => http.post(`/admin/users/${id}/unban`)
 
 // ---- 分类管理 ----
 export const getAdminCategories = () => http.get('/admin/categories')

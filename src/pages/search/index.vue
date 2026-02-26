@@ -44,12 +44,16 @@
     <view class="empty" v-else-if="searched">
       <text>没有找到相关作品</text>
     </view>
+
+    <!-- 自定义 tabBar -->
+    <CustomTabBar current-tab="search" />
   </view>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { searchPhotos, getCategories } from '@/api/photo.js'
+import CustomTabBar from '@/components/CustomTabBar.vue'
 
 const keyword = ref('')
 const categories = ref([])
@@ -58,13 +62,14 @@ const results = ref([])
 const searched = ref(false)
 
 onMounted(async () => {
-  categories.value = await getCategories()
+  const res = await getCategories()
+  categories.value = res ?? []
 })
 
 async function doSearch() {
   if (!keyword.value.trim() && !selectedCategory.value) return
   const res = await searchPhotos({ keyword: keyword.value, categoryId: selectedCategory.value })
-  results.value = res.list
+  results.value = res?.list ?? []
   searched.value = true
 }
 
@@ -86,6 +91,7 @@ function goBack() {
 .search-page {
   min-height: 100vh;
   background: #f5f5f5;
+  padding-bottom: 120rpx;
 }
 
 .search-input-bar {

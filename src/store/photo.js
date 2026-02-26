@@ -13,8 +13,8 @@ export const usePhotoStore = defineStore('photo', () => {
 
   async function fetchCategories() {
     const res = await http.get('/categories')
-    categories.value = res
-    return res
+    categories.value = res ?? []
+    return categories.value
   }
 
   async function fetchList(reset = false) {
@@ -29,13 +29,17 @@ export const usePhotoStore = defineStore('photo', () => {
     }
 
     try {
-      const res = await http.get('/photos', {
-        categoryId: currentCategory.value || undefined,
+      const params = {
         page: page.value,
         pageSize: PAGE_SIZE,
-      })
-      list.value = reset ? res.list : [...list.value, ...res.list]
-      hasMore.value = res.list.length === PAGE_SIZE
+      }
+      if (currentCategory.value) {
+        params.categoryId = currentCategory.value
+      }
+      const res = await http.get('/photos', params)
+      const newList = res?.list ?? []
+      list.value = reset ? newList : [...list.value, ...newList]
+      hasMore.value = newList.length === PAGE_SIZE
       page.value += 1
     } finally {
       loading.value = false

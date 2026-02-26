@@ -83,7 +83,7 @@ export function request(url, options = {}) {
         const { statusCode, data: resData } = res
 
         if (statusCode === 200 || statusCode === 201) {
-          resolve(resData)
+          resolve(resData.data !== undefined ? resData.data : resData)
           return
         }
 

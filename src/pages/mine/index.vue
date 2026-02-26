@@ -20,39 +20,49 @@
         </view>
       </view>
 
-      <!-- 功能入口 -->
-      <view class="menu-section">
-        <view class="menu-item" @tap="goOrders">
-          <text class="menu-label">我的订单</text>
-          <text class="arrow">›</text>
-        </view>
-        <view class="menu-item" @tap="goLicenses">
-          <text class="menu-label">我的授权</text>
-          <text class="arrow">›</text>
-        </view>
-      </view>
-
-      <!-- 摄影师入口 -->
-      <view class="menu-section">
-        <view v-if="!userStore.isPhotographer" class="menu-item" @tap="enablePhotographer">
-          <text class="menu-label">开启摄影师模式</text>
-          <text class="arrow">›</text>
-        </view>
-        <template v-else>
-          <view class="menu-item" @tap="goStudio">
-            <text class="menu-label">摄影师工作台</text>
+      <!-- 用户模式：买家功能入口 -->
+      <template v-if="!userStore.isStudioMode">
+        <view class="menu-section">
+          <view class="menu-item" @tap="goOrders">
+            <text class="menu-label">我的订单</text>
             <text class="arrow">›</text>
           </view>
-        </template>
-      </view>
-
-      <!-- 管理员入口 -->
-      <view v-if="userStore.isAdmin" class="menu-section">
-        <view class="menu-item" @tap="goAdmin">
-          <text class="menu-label">管理后台</text>
-          <text class="arrow">›</text>
+          <view class="menu-item" @tap="goLicenses">
+            <text class="menu-label">我的授权</text>
+            <text class="arrow">›</text>
+          </view>
         </view>
-      </view>
+
+        <!-- 摄影师入口 -->
+        <view class="menu-section">
+          <view v-if="!userStore.isPhotographer" class="menu-item" @tap="enablePhotographer">
+            <text class="menu-label">开启摄影师模式</text>
+            <text class="arrow">›</text>
+          </view>
+          <view v-else class="menu-item" @tap="switchToStudio">
+            <text class="menu-label">切换摄影师模式</text>
+            <text class="arrow">›</text>
+          </view>
+        </view>
+
+        <!-- 管理员入口 -->
+        <view v-if="userStore.isAdmin" class="menu-section">
+          <view class="menu-item" @tap="goAdmin">
+            <text class="menu-label">管理后台</text>
+            <text class="arrow">›</text>
+          </view>
+        </view>
+      </template>
+
+      <!-- 摄影师模式：精简菜单 -->
+      <template v-else>
+        <view class="menu-section">
+          <view class="menu-item" @tap="switchToBuyer">
+            <text class="menu-label">切换用户模式</text>
+            <text class="arrow">›</text>
+          </view>
+        </view>
+      </template>
 
       <!-- 退出 -->
       <view class="menu-section">
@@ -61,11 +71,15 @@
         </view>
       </view>
     </view>
+
+    <!-- 自定义 tabBar -->
+    <CustomTabBar current-tab="mine" />
   </view>
 </template>
 
 <script setup>
-import { useUserStore } from '@/store/user.js'
+import { useUserStore, APP_MODE } from '@/store/user.js'
+import CustomTabBar from '@/components/CustomTabBar.vue'
 
 const userStore = useUserStore()
 
@@ -81,12 +95,18 @@ function goLicenses() {
   uni.navigateTo({ url: '/pages/mine/licenses' })
 }
 
-function goStudio() {
-  uni.navigateTo({ url: '/pages/studio/index' })
-}
-
 function goAdmin() {
   uni.navigateTo({ url: '/pages/admin/index' })
+}
+
+function switchToStudio() {
+  userStore.switchMode(APP_MODE.PHOTOGRAPHER)
+  uni.switchTab({ url: '/pages/index/index' })
+}
+
+function switchToBuyer() {
+  userStore.switchMode(APP_MODE.BUYER)
+  uni.switchTab({ url: '/pages/index/index' })
 }
 
 async function enablePhotographer() {
@@ -108,7 +128,10 @@ function handleLogout() {
     title: '退出登录',
     content: '确认退出？',
     success: ({ confirm }) => {
-      if (confirm) userStore.doLogout()
+      if (confirm) {
+        userStore.doLogout()
+        uni.switchTab({ url: '/pages/index/index' })
+      }
     },
   })
 }
@@ -118,6 +141,7 @@ function handleLogout() {
 .mine-page {
   min-height: 100vh;
   background: #f5f5f5;
+  padding-bottom: 120rpx;
 }
 
 .not-login {

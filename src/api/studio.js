@@ -24,13 +24,13 @@ export const togglePhotoStatus = (id, status) =>
 export const deletePhoto = (id) => http.delete(`/studio/photos/${id}`)
 
 // 获取收益概览
-export const getEarningsOverview = () => http.get('/studio/earnings/overview')
+export const getEarningsOverview = () => http.get('/studio/stats')
 
 // 获取收益明细
-export const getEarningsHistory = (params) => http.get('/studio/earnings/history', params)
+export const getEarningsHistory = (params) => http.get('/studio/earnings', params)
 
 // 获取待确认授权申请
 export const getLicenseRequests = (params) => http.get('/studio/licenses', params)
 
 // 确认/拒绝授权申请
-export const reviewLicense = (id, data) => http.patch(`/studio/licenses/${id}/review`, data)
+export const reviewLicense = (id, data) => http.post(`/studio/licenses/${id}/review`, data)
