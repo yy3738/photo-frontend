@@ -5,7 +5,7 @@
         <image :src="item.previewUrl" class="thumb" mode="aspectFill" />
         <view class="work-info">
           <text class="work-title">{{ item.title }}</text>
-          <text class="photographer">{{ item.photographer.nickname }}</text>
+          <text class="photographer">{{ item.photographer }}</text>
           <text class="submit-time">{{ item.createdAt }}</text>
         </view>
         <text class="arrow">›</text>
@@ -16,16 +16,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { getAdminPhotos } from '@/api/admin.js'
 
 const list = ref([])
 const loading = ref(false)
 
-onMounted(async () => {
+async function fetchList() {
   loading.value = true
   list.value = (await getAdminPhotos({ status: 'pending' })).list
   loading.value = false
+}
+
+onMounted(() => {
+  fetchList()
+  uni.$on('photo-reviewed', fetchList)
+})
+
+onUnmounted(() => {
+  uni.$off('photo-reviewed', fetchList)
 })
 
 const goReview = (id) => uni.navigateTo({ url: `/pages/admin/work-review?id=${id}` })

@@ -28,7 +28,7 @@ export const deleteRole = (id) => http.delete(`/admin/roles/${id}`)
 
 // ---- 菜单管理 ----
 /** 获取菜单树 */
-export const getMenuTree = () => http.get('/admin/menus/tree')
+export const getMenuTree = () => http.get('/admin/menus')
 /** 新增菜单 */
 export const createMenu = (data) => http.post('/admin/menus', data)
 /** 编辑菜单 */

@@ -3,11 +3,11 @@
     <!-- 待处理 -->
     <view class="pending-card">
       <view class="pending-item" @tap="goWorks">
-        <text class="pending-num">{{ dashboard.pending?.photoReviewCount ?? 0 }}</text>
+        <text class="pending-num">{{ dashboard.pendingPhotos ?? 0 }}</text>
         <text class="pending-label">待审核作品</text>
       </view>
       <view class="pending-item" @tap="goLicenses">
-        <text class="pending-num">{{ dashboard.pending?.licenseReviewCount ?? 0 }}</text>
+        <text class="pending-num">{{ dashboard.pendingLicenses ?? 0 }}</text>
         <text class="pending-label">待审核授权</text>
       </view>
     </view>
@@ -16,22 +16,22 @@
     <view class="stats-section">
       <view class="stats-row">
         <view class="stat-box">
-          <text class="stat-val">{{ dashboard.today?.newUsers ?? 0 }}</text>
-          <text class="stat-lbl">今日新增用户</text>
+          <text class="stat-val">{{ dashboard.totalUsers ?? 0 }}</text>
+          <text class="stat-lbl">所有用户数量</text>
         </view>
         <view class="stat-box">
-          <text class="stat-val">{{ dashboard.today?.newPhotos ?? 0 }}</text>
-          <text class="stat-lbl">今日新增作品</text>
+          <text class="stat-val">{{ dashboard.totalPhotos ?? 0 }}</text>
+          <text class="stat-lbl">所有作品数量</text>
         </view>
       </view>
       <view class="stats-row">
-        <view class="stat-box">
+        <!-- <view class="stat-box">
           <text class="stat-val">{{ dashboard.month?.pointsTraded ?? 0 }}</text>
           <text class="stat-lbl">本月积分交易</text>
-        </view>
+        </view> -->
         <view class="stat-box">
-          <text class="stat-val">{{ dashboard.month?.orderCount ?? 0 }}</text>
-          <text class="stat-lbl">本月交易笔数</text>
+          <text class="stat-val">{{ dashboard.totalOrders ?? 0 }}</text>
+          <text class="stat-lbl">所有交易笔数</text>
         </view>
       </view>
     </view>

@@ -3,9 +3,9 @@
     <view class="license-list">
       <view v-for="item in list" :key="item.id" class="license-item" @tap="goReview(item.id)">
         <view class="license-info">
-          <text class="photo-title">{{ item.photo.title }}</text>
-          <text class="applicant">申请人：{{ item.applicant.nickname }}</text>
-          <text class="purpose">用途：{{ item.purposeLabel }}</text>
+          <text class="photo-title">{{ item.photoTitle }}</text>
+          <text class="applicant">申请人：{{ item.applicantNickname }}</text>
+          <text class="purpose">用途：{{ item.scene }}</text>
           <text class="submit-time">{{ item.createdAt }}</text>
         </view>
         <text class="arrow">›</text>

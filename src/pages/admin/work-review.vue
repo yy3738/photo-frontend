@@ -1,6 +1,6 @@
 <template>
   <view class="review-page" v-if="photo">
-    <image :src="photo.originalUrl" mode="widthFix" class="preview" />
+    <image :src="photo.previewUrl" mode="widthFix" class="preview" />
     <view class="info-card">
       <text class="title">{{ photo.title }}</text>
       <text class="desc">{{ photo.description }}</text>
@@ -25,7 +25,7 @@
           :key="r.value"
           class="reason-item"
           :class="{ selected: rejectReason === r.value }"
-          @tap="rejectReason = r.value"
+          @tap.stop="rejectReason = r.value"
         >{{ r.label }}</view>
         <button class="modal-confirm" @tap="handleReject" :loading="submitting">确认拒绝</button>
       </view>
@@ -60,6 +60,7 @@ async function handleApprove() {
   try {
     await reviewPhoto(photo.value.id, { action: 'approve' })
     uni.showToast({ title: '已通过', icon: 'success' })
+    uni.$emit('photo-reviewed')
     setTimeout(() => uni.navigateBack(), 1000)
   } finally {
     submitting.value = false
@@ -67,12 +68,16 @@ async function handleApprove() {
 }
 
 async function handleReject() {
-  if (!rejectReason.value) return uni.showToast({ title: '请选择拒绝原因', icon: 'none' })
+  if (!rejectReason.value) {
+    uni.showToast({ title: '请选择拒绝原因', icon: 'none' })
+    return
+  }
   submitting.value = true
   try {
     await reviewPhoto(photo.value.id, { action: 'reject', rejectReason: rejectReason.value })
     rejectVisible.value = false
     uni.showToast({ title: '已拒绝', icon: 'success' })
+    uni.$emit('photo-reviewed')
     setTimeout(() => uni.navigateBack(), 1000)
   } finally {
     submitting.value = false
