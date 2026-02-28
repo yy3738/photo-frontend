@@ -9,7 +9,7 @@
         <image :src="user.avatar" class="avatar" mode="aspectFill" />
         <view class="user-info">
           <text class="nickname">{{ user.nickname }}</text>
-          <text class="role">{{ roleLabel(user.role) }}</text>
+          <text class="role">{{ roleLabel(user.roles) }}</text>
           <text class="join-time">{{ user.createdAt }}</text>
         </view>
         <view class="user-actions">
@@ -43,7 +43,10 @@ const roleMap = {
   [USER_ROLE.PHOTOGRAPHER]: '摄影师',
   [USER_ROLE.ADMIN]: '管理员',
 }
-const roleLabel = (r) => roleMap[r] || r
+const roleLabel = (roles) => {
+  if (!roles || !roles.length) return '买家'
+  return roles.map(r => roleMap[r] || r).join(' / ')
+}
 
 onMounted(() => doSearch())
 

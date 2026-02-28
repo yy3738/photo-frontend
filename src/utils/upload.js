@@ -17,38 +17,38 @@ export function compressImage(src, quality = 80) {
 }
 
 /**
- * 获取 OSS 上传签名
+ * 获取 MinIO 上传签名
  * @param {string} filename
  * @param {string} type - 'preview' | 'original'
  */
-export async function getOssSignature(filename, type = 'original') {
+export async function getMinIOSignature(filename, type = 'original') {
   return http.get('/upload/signature', { filename, type })
 }
 
+// 兼容旧命名
+export const getOssSignature = getMinIOSignature
+
 /**
- * OSS 直传
+ * MinIO 直传（POST formData方式）
  * @param {object} signature - 后端返回的签名信息
  * @param {string} filePath - 本地文件路径
  * @param {function} onProgress - 进度回调 (percent: number)
  */
-export function uploadToOss(signature, filePath, onProgress) {
+export function uploadToMinIO(signature, filePath, onProgress) {
   return new Promise((resolve, reject) => {
     const uploadTask = uni.uploadFile({
-      url: signature.host,
+      url: `http://${signature.host}/photo`,
       filePath,
       name: 'file',
       formData: {
         key: signature.key,
-        policy: signature.policy,
-        OSSAccessKeyId: signature.accessId,
-        signature: signature.signature,
-        success_action_status: '200',
+        ...signature.formData,
       },
       success: (res) => {
-        if (res.statusCode === 200) {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
           resolve(signature.key)
         } else {
-          reject(new Error(`上传失败：${res.statusCode}`))
+          reject(new Error(`上传失败：${res.statusCode} - ${res.data}`))
         }
       },
       fail: reject,
@@ -60,11 +60,14 @@ export function uploadToOss(signature, filePath, onProgress) {
   })
 }
 
+// 兼容旧命名
+export const uploadToOss = uploadToMinIO
+
 /**
- * 完整上传流程：压缩 → 获取签名 → OSS 直传
+ * 完整上传流程：压缩 → 获取签名 → MinIO 直传
  * @param {string} filePath - 本地图片路径
  * @param {object} options - { compress, quality, type, onProgress }
- * @returns {string} OSS key
+ * @returns {string} MinIO key
  */
 export async function uploadImage(filePath, options = {}) {
   const { compress = true, quality = 80, type = 'original', onProgress } = options

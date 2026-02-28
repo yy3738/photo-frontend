@@ -17,11 +17,14 @@ export const useUserStore = defineStore('user', () => {
   const currentMode = ref(uni.getStorageSync('app_mode') || APP_MODE.BUYER)
 
   const isLoggedIn = computed(() => !!userInfo.value)
-  const isPhotographer = computed(() =>
-    userInfo.value?.role === USER_ROLE.PHOTOGRAPHER ||
-    userInfo.value?.role === USER_ROLE.ADMIN
-  )
-  const isAdmin = computed(() => userInfo.value?.role === USER_ROLE.ADMIN)
+  const isPhotographer = computed(() => {
+    const roles = userInfo.value?.roles || []
+    return roles.includes(USER_ROLE.PHOTOGRAPHER) || roles.includes(USER_ROLE.ADMIN)
+  })
+  const isAdmin = computed(() => {
+    const roles = userInfo.value?.roles || []
+    return roles.includes(USER_ROLE.ADMIN)
+  })
   const points = computed(() => userInfo.value?.points ?? 0)
   const isStudioMode = computed(() => currentMode.value === APP_MODE.PHOTOGRAPHER)
 
@@ -50,7 +53,10 @@ export const useUserStore = defineStore('user', () => {
 
   async function enablePhotographer() {
     await http.post('/user/enable-photographer')
-    userInfo.value = { ...userInfo.value, role: USER_ROLE.PHOTOGRAPHER }
+    const roles = userInfo.value?.roles || []
+    if (!roles.includes(USER_ROLE.PHOTOGRAPHER)) {
+      userInfo.value = { ...userInfo.value, roles: [...roles, USER_ROLE.PHOTOGRAPHER] }
+    }
     uni.setStorageSync(STORAGE_KEY.USER_INFO, JSON.stringify(userInfo.value))
   }
 

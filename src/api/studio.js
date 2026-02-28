@@ -1,6 +1,6 @@
 import { http } from '@/utils/request.js'
 
-// 获取上传签名
+// 获取 MinIO 上传签名
 export const getUploadSignature = (filename, type) =>
   http.get('/upload/signature', { filename, type })
 
