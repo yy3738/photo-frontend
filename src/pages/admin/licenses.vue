@@ -16,14 +16,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { getAdminLicenses } from '@/api/admin.js'
 
 const list = ref([])
 
 onMounted(async () => {
-  list.value = (await getAdminLicenses({ status: 'pending_admin' })).list
+  await loadList()
+  uni.$on('license-review-success', loadList)
 })
+
+onUnmounted(() => {
+  uni.$off('license-review-success', loadList)
+})
+
+async function loadList() {
+  list.value = (await getAdminLicenses({ status: 'pending_admin' })).list
+}
 
 const goReview = (id) => uni.navigateTo({ url: `/pages/admin/license-review?id=${id}` })
 </script>

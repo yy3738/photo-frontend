@@ -19,7 +19,7 @@ export const useUserStore = defineStore('user', () => {
   const isLoggedIn = computed(() => !!userInfo.value)
   const isPhotographer = computed(() => {
     const roles = userInfo.value?.roles || []
-    return roles.includes(USER_ROLE.PHOTOGRAPHER) || roles.includes(USER_ROLE.ADMIN)
+    return roles.includes(USER_ROLE.PHOTOGRAPHER)
   })
   const isAdmin = computed(() => {
     const roles = userInfo.value?.roles || []

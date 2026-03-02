@@ -3,7 +3,7 @@
     <view class="info-card">
       <view class="info-row">
         <text class="info-label">申请人</text>
-        <text class="info-value">{{ license.applicant.nickname }}</text>
+        <text class="info-value">{{ license.applicantNickName }}</text>
       </view>
       <view class="info-row">
         <text class="info-label">作品</text>
@@ -33,7 +33,7 @@
     </view>
 
     <view class="modal-mask" v-if="rejectVisible" @tap.self="rejectVisible = false">
-      <view class="modal">
+      <view class="modal" @tap.stop>
         <text class="modal-title">填写拒绝原因</text>
         <textarea v-model="rejectReason" placeholder="请填写拒绝原因" maxlength="200" />
         <button class="modal-confirm" @tap="handleReject" :loading="submitting">确认拒绝</button>
@@ -66,6 +66,7 @@ async function handleApprove() {
   try {
     await reviewAdminLicense(license.value.id, { action: 'approve' })
     uni.showToast({ title: '已通过', icon: 'success' })
+    uni.$emit('license-review-success')
     setTimeout(() => uni.navigateBack(), 1000)
   } finally {
     submitting.value = false
@@ -79,6 +80,7 @@ async function handleReject() {
     await reviewAdminLicense(license.value.id, { action: 'reject', rejectReason: rejectReason.value })
     rejectVisible.value = false
     uni.showToast({ title: '已拒绝', icon: 'success' })
+    uni.$emit('license-review-success')
     setTimeout(() => uni.navigateBack(), 1000)
   } finally {
     submitting.value = false
