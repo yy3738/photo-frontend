@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp add --help)",
+      "Bash(claude mcp add -s user chrome-devtools chrome-devtools-mcp)",
+      "Bash(claude mcp list -s user)",
+      "Bash(claude mcp add -s user pencil \"c:\\\\Users\\\\JSWPC2024101201\\\\.vscode\\\\extensions\\\\highagency.pencildev-0.6.28\\\\out\\\\mcp-server-windows-x64.exe\" --app visual_studio_code)",
+      "Bash(claude mcp add -s user pencil \"c:\\\\Users\\\\JSWPC2024101201\\\\.vscode\\\\extensions\\\\highagency.pencildev-0.6.28\\\\out\\\\mcp-server-windows-x64.exe\" -- --app visual_studio_code)"
+    ]
+  }
+}
